@@ -22,7 +22,7 @@ const actions = {
       dispatch('initGapi').then(() => {
         var currentUser = null;
         try { currentUser = gapi.auth2.getAuthInstance().currentUser.get(); }
-        catch (e) { reject(); }
+        catch (e) { resolve(false); }
 
         // not signed in - delete persisted user
         if (!currentUser) {
