@@ -44,6 +44,7 @@ export default {
           return false;
         }
         commit('assignTableData', response.result);
+        return true;
       });
     },
     async queryRange({
