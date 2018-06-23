@@ -1,8 +1,8 @@
 {
-  "name": "vue-gapi-example",
+  "name": "vue-gapi-sheets-example",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "oguzgelal <o.gelal77@gmail.com>",
+  "description": "example project for using google api for auth and displaying sheets",
+  "author": "Amit Rahav <amit.r.89@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -14,7 +14,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "dotenv-webpack": "1.5.7",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
     "vuex": "^2.4.0",

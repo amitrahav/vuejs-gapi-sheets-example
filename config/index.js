@@ -12,6 +12,7 @@ module.exports = {
     productionGzip: false,
     productionGzipExtensions: ['js', 'css'],
     bundleAnalyzerReport: process.env.npm_config_report,
+    proxyTable: {}
   },
   dev: {
     env: require('./dev.env'),
@@ -19,13 +20,7 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        pathRewrite: { '^/api': '' }
-      }
-    },
-    cssSourceMap: false
+    cssSourceMap: false,
+    proxyTable: {}
   }
 }

@@ -1,3 +1,18 @@
 {
-    "git.ignoreLimitWarning": true
+  "eslint.options": {
+    "configFile": "/Users/amit/Projects/js/sheets-example/.eslintrc.js",
+    "import/prefer-default-export": "off"
+  },
+  "eslint.validate": [
+    "javascript",
+    "vue",
+    "javascriptreact",
+    {
+      "language": "html",
+      "autoFix": true
+    }
+  ],
+  "prettier.eslintIntegration": true,
+  "editor.formatOnSave": true,
+  "eslint.autoFixOnSave": true
 }

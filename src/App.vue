@@ -1,62 +1,66 @@
 <template>
   <div id="app" style="text-align: center;">
-
-    <div v-if="loading">loading...</div>
-
-    <div v-if="!loading && !signedIn">
-      <a href="#" v-on:click="signIn">Sign In</a>
-    </div>
-
-    <div v-if="!loading && signedIn">
-      <div>{{ profile.google_id }}</div>
-      <div>{{ profile.name }}</div>
-      <div><img v-bind:src="profile.picture"></div>
-      <div>{{ profile.email }}</div>
+    <div v-if="!loading && loggedIn && profileGet.getId()">
+      <div>{{ profileGet.getId() }}</div>
+      <div>{{ profileGet.getName() }} {{profileGet.getFamilyName()}}</div>
       <div>
-        <a href="#" v-on:click="signOut">Sign out</a>
+        <img v-bind:src="profileGet.getImageUrl()">
       </div>
-
+      <div>{{ profileGet.getEmail() }}</div>
+      <a href="#" v-on:click="signOutAndRout">Sign out</a>
     </div>
-    <router-view></router-view>
+    <transition :name="transitionName">
+      <router-view :loading=loading></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
-
-import { mapState, mapActions } from 'vuex'
-import store from './store';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'app',
   data() {
     return {
-      loading: true
+      loading: true,
+      transitionName: 'slide-right',
     };
   },
   computed: {
-    ...mapState({
-      signedIn: state => state.auth.signedIn,
-      profile: state => state.auth.profile
-    })
-  },
-  mounted: function() {
-    var self = this;
-    store.dispatch('auth/isSignedIn').then(() => {
-      self.loading = false;
-    });
+    ...mapGetters('authentication', [
+      'loggedIn',
+      'profileGet'
+    ]),
   },
   methods: {
-    ...mapActions('auth', [
-      'signIn',
-      'signOut'
-    ])
+    ...mapActions('authentication', [
+      'signOut',
+      'isSignedIn'
+    ]),
+    signOutAndRout() {
+      this.signOut().then(() => {
+        this.$router.push('/');
+      });
+    }
+  },
+  mounted() {
+    this.isSignedIn().then(() => {
+      this.loading = false;
+    });
+  },
+  watch: {
+    '$route'(to, from) {
+      const toDepth = to.path.split('/').length;
+      const fromDepth = from.path.split('/').length;
+      this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left';
+    }
   }
 };
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

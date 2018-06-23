@@ -2,8 +2,9 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+var Dotenv = require('dotenv-webpack');
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -14,9 +15,8 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === 'production' ?
+      config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -25,6 +25,11 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  plugins: [
+    new Dotenv({
+      safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
+    })
+  ],
   module: {
     rules: [
       /*
